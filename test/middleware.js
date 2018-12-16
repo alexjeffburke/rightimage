@@ -3,6 +3,10 @@ const stream = require("stream");
 
 const app = require("../examples/app");
 
+const BYTES_128K = Math.pow(2, 17);
+const BYTES_32K = Math.pow(2, 15);
+const BYTES_160K = BYTES_128K + BYTES_32K;
+
 function createExpectForExamleApp() {
     return unexpected
         .clone()
@@ -38,7 +42,7 @@ describe("middleware", () => {
     });
 
     describe("when the stream errors", () => {
-        it("should forward the error while buffering EXIF", function() {
+        it("should forward an error while buffering EXIF", function() {
             const theError = new Error("Fake error");
             const requestStream = new stream.Readable();
             requestStream._read = (num, cb) => {
@@ -54,6 +58,35 @@ describe("middleware", () => {
             return expect(
                 {
                     url: "POST /stream/test.jpg",
+                    body: requestStream
+                },
+                "to yield response",
+                {
+                    errorPassedToNext: theError
+                }
+            );
+        });
+
+        it("should forward an error after buffering is complete", function() {
+            const theError = new Error("Fake error");
+            const requestStream = new stream.Readable();
+            requestStream._read = (num, cb) => {
+                requestStream._read = () => {};
+
+                setImmediate(() => {
+                    requestStream.push(Buffer.alloc(BYTES_160K));
+
+                    setImmediate(() => {
+                        requestStream.emit("error", theError);
+                    });
+                });
+            };
+
+            const expect = createExpectForExamleApp();
+
+            return expect(
+                {
+                    url: "POST /stream/something.jpg",
                     body: requestStream
                 },
                 "to yield response",
