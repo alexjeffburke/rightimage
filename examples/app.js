@@ -72,7 +72,8 @@ app.get(
     },
     rightImage.createMiddleware(),
     (req, res, next) => {
-        res.locals.rightImage.outputStream.pipe(res);
+        const { outputStream } = res.locals.rightImage;
+        outputStream.pipe(res);
     }
 );
 
