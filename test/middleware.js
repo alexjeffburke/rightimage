@@ -7,37 +7,27 @@ const BYTES_128K = Math.pow(2, 17);
 const BYTES_32K = Math.pow(2, 15);
 const BYTES_160K = BYTES_128K + BYTES_32K;
 
-function createExpectForExamleApp() {
-    return unexpected
-        .clone()
-        .use(require("unexpected-express"))
-        .use(require("unexpected-mitm"))
-        .addAssertion("<any> to yield response <any>", function(
-            expect,
-            subject,
-            value
-        ) {
-            if (typeof subject === "string") {
-                subject = { url: subject };
-            }
+const expect = unexpected
+    .clone()
+    .use(require("unexpected-express"))
+    .use(require("unexpected-mitm"))
+    .addAssertion("<any> to yield response <any>", (expect, subject, value) => {
+        if (typeof subject === "string") {
+            subject = { url: subject };
+        }
 
-            return expect(app, "to yield exchange", {
-                request: subject,
-                response: value
-            });
+        return expect(app, "to yield exchange", {
+            request: subject,
+            response: value
         });
-}
+    });
 
 describe("middleware", () => {
-    it("should pass through an image", () => {
-        const expect = createExpectForExamleApp();
-
+    it("should pass through a image", () => {
         return expect("GET /test.jpg", "to yield response", 200);
     });
 
     it("should pass through an image underneath the byte count", () => {
-        const expect = createExpectForExamleApp();
-
         return expect("GET /tiny.png", "to yield response", 200);
     });
 
@@ -52,8 +42,6 @@ describe("middleware", () => {
                     requestStream.emit("error", theError);
                 });
             };
-
-            const expect = createExpectForExamleApp();
 
             return expect(
                 {
@@ -81,8 +69,6 @@ describe("middleware", () => {
                     });
                 });
             };
-
-            const expect = createExpectForExamleApp();
 
             return expect(
                 {
