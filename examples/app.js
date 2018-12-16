@@ -53,6 +53,9 @@ app.get(
         let imageOptions;
         try {
             let inFormat = path.extname(req.params.imageFile);
+            if (inFormat) {
+                inFormat = inFormat.slice(1);
+            }
             if (inFormat === "jpg") {
                 inFormat = "jpeg";
             }
@@ -72,7 +75,8 @@ app.get(
     },
     rightImage.createMiddleware(),
     (req, res, next) => {
-        const { outputStream } = res.locals.rightImage;
+        const { outputContentType, outputStream } = res.locals.rightImage;
+        res.setHeader("Content-Type", outputContentType);
         outputStream.pipe(res);
     }
 );

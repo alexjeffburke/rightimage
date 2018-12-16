@@ -24,11 +24,30 @@ const expect = unexpected
 
 describe("middleware", () => {
     it("should pass through a image", () => {
-        return expect("GET /test.jpg", "to yield response", 200);
+        return expect("GET /test.jpg", "to yield response", {
+            statusCode: 200,
+            headers: {
+                "Content-Type": "image/jpeg"
+            }
+        });
     });
 
     it("should pass through an image underneath the byte count", () => {
-        return expect("GET /tiny.png", "to yield response", 200);
+        return expect("GET /tiny.png", "to yield response", {
+            statusCode: 200,
+            headers: {
+                "Content-Type": "image/png"
+            }
+        });
+    });
+
+    it("should convert the format and pass through an image", () => {
+        return expect("GET /test.jpg?format=png", "to yield response", {
+            statusCode: 200,
+            headers: {
+                "Content-Type": "image/png"
+            }
+        });
     });
 
     describe("when the stream errors", () => {
