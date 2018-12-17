@@ -9,6 +9,7 @@ const BYTES_160K = BYTES_128K + BYTES_32K;
 
 const expect = unexpected
     .clone()
+    .use(require("unexpected-exif"))
     .use(require("unexpected-express"))
     .use(require("unexpected-mitm"))
     .addAssertion("<any> to yield response <any>", (expect, subject, value) => {
@@ -47,6 +48,22 @@ describe("middleware", () => {
             headers: {
                 "Content-Type": "image/png"
             }
+        });
+    });
+
+    describe("when the orientation is changed", () => {
+        it("should convert the format and pass through an image", async () => {
+            const { httpResponse } = await expect(
+                "GET /test.jpg",
+                "to yield response",
+                200
+            );
+
+            expect(
+                httpResponse.body,
+                "to have EXIF data satisfying",
+                expect.it("not to have property", "Orientation")
+            );
         });
     });
 
