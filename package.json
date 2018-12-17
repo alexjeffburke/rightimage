@@ -14,7 +14,7 @@
   },
   "license": "BSD-3-Clause",
   "dependencies": {
-    "bufferedstream": "^1.6.0",
+    "@alexjeffburke/bufferedstream": "^1.6.1",
     "exif-parser": "^0.1.12",
     "express-processimage": "^8.0.2",
     "httperrors": "2.0.1",
