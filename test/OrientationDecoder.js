@@ -8,12 +8,12 @@ const OrientationDecoder = require("../lib/OrientationDecoder");
 const BYTES_128K = Math.pow(2, 17);
 const BYTES_32K = Math.pow(2, 15);
 const BYTES_160K = BYTES_128K + BYTES_32K;
-const testDataPath = path.resolve(__dirname, "..", "testdata");
+const TEST_DATA_PATH = path.resolve(__dirname, "..", "testdata");
 
 describe("OrientationDecoder", () => {
     it("should decode an image", () => {
         const readStream = fs.createReadStream(
-            path.join(testDataPath, "test.jpg")
+            path.join(TEST_DATA_PATH, "test.jpg")
         );
 
         const decoder = new OrientationDecoder(readStream);
@@ -33,7 +33,7 @@ describe("OrientationDecoder", () => {
 
     it("should pass through an image underneath the byte count", () => {
         const readStream = fs.createReadStream(
-            path.join(testDataPath, "tiny.png")
+            path.join(TEST_DATA_PATH, "tiny.png")
         );
 
         const decoder = new OrientationDecoder(readStream);
