@@ -14,8 +14,9 @@ function validateImageOptions(query) {
     const height = purify.positiveInteger(query.height);
     const queryCrop = purify.boolean(query.crop);
     const gravity = purify.visibleAscii(query.gravity);
+    const rotate = purify.positiveIntegerOrZero(query.rotate);
 
-    if (!(outFormat || (width && height) || queryCrop || gravity)) {
+    if (!(outFormat || (width && height) || queryCrop || gravity || rotate)) {
         return null;
     }
 
@@ -37,6 +38,10 @@ function validateImageOptions(query) {
         imageOptions.background = "#000000";
         imageOptions.embed = "";
     }
+    if (typeof rotate === "number") {
+        imageOptions.rotate = String(rotate);
+    }
+
     return imageOptions;
 }
 
