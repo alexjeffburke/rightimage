@@ -25,7 +25,7 @@ describe("createRightImagePipeline", () => {
         const imageFileStream = fs.createReadStream(
             path.join(TEST_DATA_PATH, "tiny.png")
         );
-        let sawPostProcessCall = false;
+        let postProcessArgs = null;
 
         return expect(function(cb) {
             createRightImagePipeline(
@@ -33,8 +33,8 @@ describe("createRightImagePipeline", () => {
                     contentType: "image/jpeg",
                     inputStream: imageFileStream,
                     imageOptions: { foo: "bar" },
-                    postProcessImageOptions: () => {
-                        sawPostProcessCall = true;
+                    postProcessImageOptions: (...args) => {
+                        postProcessArgs = args;
 
                         return null;
                     }
@@ -46,7 +46,11 @@ describe("createRightImagePipeline", () => {
 
             outputStream.resume();
 
-            expect(sawPostProcessCall, "to be true");
+            expect(postProcessArgs, "to equal", [
+                "image/jpeg",
+                { foo: "bar" },
+                { animated: false }
+            ]);
             expect(outputTransformed, "to be false");
         });
     });
@@ -102,6 +106,41 @@ describe("createRightImagePipeline", () => {
                 .then(outputBuffer => {
                     expect(outputBuffer, "to equal", imageFileBuffer);
                 });
+        });
+
+        it("should correctly detect an animated GIF", () => {
+            const imageFileStream = fs.createReadStream(
+                path.join(TEST_DATA_PATH, "test.gif")
+            );
+            let postProcessArgs = null;
+
+            return expect(function(cb) {
+                createRightImagePipeline(
+                    {
+                        contentType: "image/gif",
+                        inputStream: imageFileStream,
+                        imageOptions: null,
+                        postProcessImageOptions: (...args) => {
+                            postProcessArgs = args;
+
+                            return null;
+                        }
+                    },
+                    cb
+                );
+            }, "to call the callback without error").then(
+                ([pipelineResult]) => {
+                    const { outputStream } = pipelineResult;
+
+                    outputStream.resume();
+
+                    expect(postProcessArgs, "to equal", [
+                        "image/gif",
+                        null,
+                        { animated: true }
+                    ]);
+                }
+            );
         });
     });
 });
