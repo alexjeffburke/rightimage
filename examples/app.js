@@ -39,7 +39,7 @@ function validateImageOptions(query) {
         imageOptions.embed = "";
     }
     if (typeof rotate === "number") {
-        imageOptions.rotate = String(rotate);
+        imageOptions.rotate = rotate;
     }
 
     return imageOptions;

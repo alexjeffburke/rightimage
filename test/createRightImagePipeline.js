@@ -1,6 +1,8 @@
-const expect = require("unexpected");
+const unexpected = require("unexpected");
 const fs = require("fs");
 const path = require("path");
+
+const expect = unexpected.clone().use(require("unexpected-image"));
 
 const TEST_DATA_PATH = path.resolve(__dirname, "..", "testdata");
 
@@ -106,6 +108,40 @@ describe("createRightImagePipeline", () => {
                 .then(outputBuffer => {
                     expect(outputBuffer, "to equal", imageFileBuffer);
                 });
+        });
+
+        it("should allow rotation to be specified as an integer", () => {
+            const imageFileStream = fs.createReadStream(
+                path.join(TEST_DATA_PATH, "test.gif")
+            );
+
+            return expect(function(cb) {
+                createRightImagePipeline(
+                    {
+                        contentType: "image/gif",
+                        inputStream: imageFileStream,
+                        imageOptions: { rotate: 90 }
+                    },
+                    cb
+                );
+            }, "to call the callback without error")
+                .then(([{ outputStream }]) =>
+                    createPromiseFromStream(outputStream)
+                )
+                .then(outputBuffer =>
+                    expect(
+                        outputBuffer,
+                        "to have metadata satisfying",
+                        expect.it(({ size }) => {
+                            // check image orientation changed
+                            expect(
+                                size.height,
+                                "to be greater than",
+                                size.width
+                            );
+                        })
+                    )
+                );
         });
 
         it("should correctly detect an animated GIF", () => {
