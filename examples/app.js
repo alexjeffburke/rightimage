@@ -1,7 +1,7 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
-const httpErrors = require("httpErrors");
+const httpErrors = require("httperrors");
 const purify = require("purify");
 
 const rightImage = require("../lib");
