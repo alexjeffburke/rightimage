@@ -2,7 +2,10 @@ const unexpected = require("unexpected");
 const fs = require("fs");
 const path = require("path");
 
-const expect = unexpected.clone().use(require("unexpected-image"));
+const expect = unexpected
+    .clone()
+    .use(require("unexpected-exif"))
+    .use(require("unexpected-image"));
 
 const TEST_DATA_PATH = path.resolve(__dirname, "..", "testdata");
 
@@ -55,6 +58,31 @@ describe("createRightImagePipeline", () => {
             ]);
             expect(outputTransformed, "to be false");
         });
+    });
+
+    it("should combine detected rotation with a custom rotate", () => {
+        const imageFileStream = fs.createReadStream(
+            path.join(TEST_DATA_PATH, "test.jpg")
+        );
+
+        return expect(function(cb) {
+            createRightImagePipeline(
+                {
+                    contentType: "image/gif",
+                    inputStream: imageFileStream,
+                    imageOptions: { rotate: 270 }
+                },
+                cb
+            );
+        }, "to call the callback without error")
+            .then(([{ outputStream }]) => createPromiseFromStream(outputStream))
+            .then(outputBuffer =>
+                expect(outputBuffer, "to have EXIF data satisfying", {
+                    tags: {
+                        Orientation: 6 // check the orientation changed
+                    }
+                })
+            );
     });
 
     describe("image/gif", () => {
@@ -133,7 +161,7 @@ describe("createRightImagePipeline", () => {
                         outputBuffer,
                         "to have metadata satisfying",
                         expect.it(({ size }) => {
-                            // check image orientation changed
+                            // check the orientation changed
                             expect(
                                 size.height,
                                 "to be greater than",
