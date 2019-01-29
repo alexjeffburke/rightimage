@@ -4,6 +4,7 @@
   "description": "Stream images with dynamic re-orientation",
   "main": "lib/index.js",
   "scripts": {
+    "coverage": "nyc --reporter lcov --reporter text npm test",
     "lint": "eslint .",
     "test": "mocha"
   },
@@ -29,6 +30,7 @@
     "eslint-plugin-prettier": "^2.6.0",
     "express": "^4.16.3",
     "mocha": "^5.2.0",
+    "nyc": "^13.1.0",
     "prettier": "1.15.3",
     "unexpected": "^10.39.2",
     "unexpected-exif": "^3.1.0",
