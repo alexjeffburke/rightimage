@@ -26,6 +26,28 @@ function createPromiseFromStream(stream) {
 }
 
 describe("createRightImagePipeline", () => {
+    it("should allow no image options to be supplied", () => {
+        const imageFileStream = fs.createReadStream(
+            path.join(TEST_DATA_PATH, "tiny.png")
+        );
+
+        return expect(function(cb) {
+            createRightImagePipeline(
+                {
+                    contentType: "image/png",
+                    inputStream: imageFileStream
+                },
+                cb
+            );
+        }, "to call the callback without error").then(([pipelineResult]) => {
+            const { outputStream, outputTransformed } = pipelineResult;
+
+            outputStream.resume();
+
+            expect(outputTransformed, "to be false");
+        });
+    });
+
     it("should allow image options to be post-processed", () => {
         const imageFileStream = fs.createReadStream(
             path.join(TEST_DATA_PATH, "tiny.png")
