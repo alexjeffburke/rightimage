@@ -21,6 +21,7 @@
     "gifsicle-stream": "^0.3.1",
     "httperrors": "2.0.1",
     "is-animated": "1.1.1",
+    "jpegtran": "^1.0.5",
     "purify": "^3.3.1"
   },
   "devDependencies": {
