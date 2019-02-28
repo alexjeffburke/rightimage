@@ -15,6 +15,8 @@ const createRightImagePipeline = require("../lib/createRightImagePipeline");
 function createPromiseFromStream(stream) {
     return new Promise(function(resolve, reject) {
         var chunks = [];
+
+        // attach handlers
         stream
             .on("data", function(chunk) {
                 chunks.push(chunk);
@@ -23,6 +25,9 @@ function createPromiseFromStream(stream) {
                 resolve(Buffer.concat(chunks));
             })
             .on("error", reject);
+
+        // ensure data is flowing
+        stream.resume();
     });
 }
 
@@ -58,7 +63,7 @@ describe("createRightImagePipeline", () => {
         return expect(function(cb) {
             createRightImagePipeline(
                 {
-                    contentType: "image/jpeg",
+                    contentType: "image/png",
                     inputStream: imageFileStream,
                     imageOptions: { foo: "bar" },
                     postProcessImageOptions: (...args) => {
@@ -75,7 +80,7 @@ describe("createRightImagePipeline", () => {
             outputStream.resume();
 
             expect(postProcessArgs, "to equal", [
-                "image/jpeg",
+                "image/png",
                 { foo: "bar" },
                 { animated: false }
             ]);
@@ -91,7 +96,7 @@ describe("createRightImagePipeline", () => {
         return expect(function(cb) {
             createRightImagePipeline(
                 {
-                    contentType: "image/gif",
+                    contentType: "image/jpeg",
                     inputStream: imageFileStream,
                     imageOptions: { rotate: 270 }
                 },
