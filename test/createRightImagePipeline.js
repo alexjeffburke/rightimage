@@ -1,6 +1,7 @@
 const unexpected = require("unexpected");
 const fs = require("fs");
 const path = require("path");
+const stream = require("stream");
 
 const expect = unexpected
     .clone()
@@ -105,6 +106,40 @@ describe("createRightImagePipeline", () => {
                     }
                 })
             );
+    });
+
+    describe("image/jpeg", () => {
+        it("should use JpegTran when rotating without a format conversion", () => {
+            let fakeJpegTranArgs;
+            const fakeJpegTranStream = new stream.PassThrough();
+            const FakeJpegTran = function(...args) {
+                fakeJpegTranArgs = args;
+                return fakeJpegTranStream;
+            };
+            setImmediate(() => {
+                fakeJpegTranStream.push(null);
+            });
+            const imageFileStream = fs.createReadStream(
+                path.join(TEST_DATA_PATH, "test.jpg")
+            );
+
+            return expect(function(cb) {
+                createRightImagePipeline(
+                    {
+                        contentType: "image/jpeg",
+                        inputStream: imageFileStream,
+                        _JpegTran: FakeJpegTran
+                    },
+                    cb
+                );
+            }, "to call the callback without error")
+                .then(([{ outputStream }]) => {
+                    outputStream.resume();
+                })
+                .then(() => {
+                    expect(fakeJpegTranArgs, "to equal", [["-rotate", 90]]);
+                });
+        });
     });
 
     describe("image/gif", () => {
