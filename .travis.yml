@@ -6,3 +6,4 @@ before_install: "sudo apt-get update && sudo apt-get install -y graphicsmagick l
 script:
   - "npm test"
   - "npm run coverage"
+after_success: "<coverage/lcov.info ./node_modules/coveralls/bin/coveralls.js"

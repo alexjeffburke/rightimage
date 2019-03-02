@@ -2,6 +2,7 @@
 
 [![NPM version](https://img.shields.io/npm/v/rightimage.svg)](https://www.npmjs.com/package/rightimage)
 [![Build Status](https://img.shields.io/travis/alexjeffburke/rightimage/master.svg)](https://travis-ci.org/alexjeffburke/rightimage)
+[![Coverage Status](https://img.shields.io/coveralls/alexjeffburke/rightimage/master.svg)](https://coveralls.io/r/alexjeffburke/rightimage?branch=master)
 
 This module is a small library for streaming dynamic images. Its
 primary trick is to automatically detect and correct oritentation.
