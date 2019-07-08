@@ -17,7 +17,7 @@
   "dependencies": {
     "@alexjeffburke/bufferedstream": "^1.6.1",
     "exif-parser": "^0.1.12",
-    "express-processimage": "^8.0.2",
+    "express-processimage": "~8.0.2",
     "gifsicle-stream": "^0.3.1",
     "httperrors": "2.0.1",
     "is-animated": "1.1.1",
