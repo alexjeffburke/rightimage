@@ -89,17 +89,20 @@ app.get(
 app.post(
     "/stream/:imageFile",
     (req, res, next) => {
+        const inputStream = req;
+
         let contentType;
         let imageOptions;
-        let inputStream;
         try {
             let inFormat = path.extname(req.params.imageFile);
+            if (inFormat) {
+                inFormat = inFormat.slice(1);
+            }
             if (inFormat === "jpg") {
                 inFormat = "jpeg";
             }
             contentType = `image/${inFormat}`;
             imageOptions = validateImageOptions(req.query);
-            inputStream = req;
         } catch (e) {
             return next(e);
         }
