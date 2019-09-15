@@ -51,6 +51,20 @@ describe("middleware", () => {
         });
     });
 
+    describe("when the format is changed", () => {
+        it("should convert the format and pass through an image", async () => {
+            const { httpResponse } = await expect(
+                "GET /test.gif?format=jpg",
+                "to yield response",
+                200
+            );
+
+            expect(httpResponse.body, "to have EXIF data satisfying", {
+                imageSize: { height: 414, width: 498 }
+            });
+        });
+    });
+
     describe("when the orientation is changed", () => {
         it("should convert the format and pass through an image", async () => {
             const { httpResponse } = await expect(
