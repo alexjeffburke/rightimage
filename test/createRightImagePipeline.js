@@ -32,6 +32,36 @@ function createPromiseFromStream(stream) {
 }
 
 describe("createRightImagePipeline", () => {
+    it("should throw on a non-image content type", () => {
+        return expect(
+            function() {
+                createRightImagePipeline(
+                    {
+                        contentType: "text/plain"
+                    },
+                    () => {}
+                );
+            },
+            "to throw",
+            "unsupported content type: text/plain"
+        );
+    });
+
+    it("should throw on an unsuppported image content type", () => {
+        return expect(
+            function() {
+                createRightImagePipeline(
+                    {
+                        contentType: "image/bmp"
+                    },
+                    () => {}
+                );
+            },
+            "to throw",
+            "unsupported content type: image/bmp"
+        );
+    });
+
     it("should allow no image options to be supplied", () => {
         const imageFileStream = fs.createReadStream(
             path.join(TEST_DATA_PATH, "tiny.png")
