@@ -53,19 +53,31 @@ and parse the EXIF data for the image oritentation. We use any present
 orientation data to calculate the correction required and trigger rotation
 via image processing libraries. The image data is never buffered.
 
+## Production safety
+
+This module is intended to be used in production situations for the dynamic
+conversion of untrusted image data; it is imperative that the library is safe.
+A great deal of emphasis has been placed on error codepath hardening and the
+validation of any operations that will be performed.
+
+Every requested format conversion and transformation operation is checked
+against a set of whitelisted operations and the module will not procedd if
+these checks fail. _This module will always prefer a safer feature subset._
+
 ## Image processing
 
 Internally two modules are used to do the core image manipulation work.
 
-### [express-processimage](https://github.com/papandreou/express-processimage)
+### [impro](https://github.com/papandreou/impro)
 
-This awesome library wraps multiple image libraries - the two invoked by
+This awesome library wraps multiple image libraries - those configured by
 rightimage are [sharp](https://github.com/lovell/sharp) and
 [Gifsicle](https://github.com/kohler/gifsicle) (for the correct conversion
 of _all_ GIFs including those with animated frames).
 
-We bypass the outer layer that exposes a middleware and instead directly use
-the internal `engine` which, based on input options and input content-type,
+We bypass the outer layer and instead use the lower-level "operations API"
+where we construct an array of operations and pass that directly into the
+core fo the library. Based on input options and input content-type,
 will construct a streaming pipeline that will perform the conversion.
 
 ### [jpegtran](https://github.com/papandreou/node-jpegtran)
