@@ -83,6 +83,27 @@ describe("createRightImagePipeline", () => {
         );
     });
 
+    it("should error on an unsupported operation", () => {
+        const imageFileStream = fs.createReadStream(
+            path.join(TEST_DATA_PATH, "tiny.png")
+        );
+
+        return expect(
+            function(cb) {
+                createRightImagePipeline(
+                    {
+                        contentType: "image/png",
+                        inputStream: imageFileStream,
+                        imageOptions: { transnothingify: undefined }
+                    },
+                    cb
+                );
+            },
+            "to call the callback with error",
+            "unsupported operation transnothingify=[]"
+        );
+    });
+
     it("should allow no image options to be supplied", () => {
         const imageFileStream = fs.createReadStream(
             path.join(TEST_DATA_PATH, "tiny.png")
