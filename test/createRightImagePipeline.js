@@ -34,31 +34,31 @@ function createPromiseFromStream(stream) {
 describe("createRightImagePipeline", () => {
     it("should throw on a non-image content type", () => {
         return expect(
-            function() {
+            function(cb) {
                 createRightImagePipeline(
                     {
                         contentType: "text/plain"
                     },
-                    () => {}
+                    cb
                 );
             },
-            "to throw",
-            "unsupported content type: text/plain"
+            "to call the callback with error",
+            "unsupported input type: text/plain"
         );
     });
 
     it("should throw on an unsuppported image content type", () => {
         return expect(
-            function() {
+            function(cb) {
                 createRightImagePipeline(
                     {
-                        contentType: "image/bmp"
+                        contentType: "image/x-unknown"
                     },
-                    () => {}
+                    cb
                 );
             },
-            "to throw",
-            "unsupported content type: image/bmp"
+            "to call the callback with error",
+            "unsupported input type: image/x-unknown"
         );
     });
 
