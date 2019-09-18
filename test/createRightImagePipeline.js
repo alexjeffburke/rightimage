@@ -104,6 +104,77 @@ describe("createRightImagePipeline", () => {
         );
     });
 
+    it("should error when an operation arugment could not be mapped", () => {
+        const imageFileStream = fs.createReadStream(
+            path.join(TEST_DATA_PATH, "tiny.png")
+        );
+
+        return expect(
+            function(cb) {
+                createRightImagePipeline(
+                    {
+                        contentType: "image/jpeg",
+                        inputStream: imageFileStream,
+                        imageOptions: {
+                            notanoption: ""
+                        }
+                    },
+                    cb
+                );
+            },
+            "to call the callback with error",
+            "unsupported argument for notanoption"
+        );
+    });
+
+    it("should error when an operation arugment could not be mapped", () => {
+        const imageFileStream = fs.createReadStream(
+            path.join(TEST_DATA_PATH, "tiny.png")
+        );
+
+        return expect(
+            function(cb) {
+                createRightImagePipeline(
+                    {
+                        contentType: "image/jpeg",
+                        inputStream: imageFileStream,
+                        imageOptions: {
+                            resize: "30-30"
+                        }
+                    },
+                    cb
+                );
+            },
+            "to call the callback with error",
+            "invalid argument for resize 30-30"
+        );
+    });
+
+    it("should allow a resize option to be supplied as a string", () => {
+        const imageFileStream = fs.createReadStream(
+            path.join(TEST_DATA_PATH, "test.jpg")
+        );
+
+        return expect(function(cb) {
+            createRightImagePipeline(
+                {
+                    contentType: "image/jpeg",
+                    inputStream: imageFileStream,
+                    imageOptions: {
+                        resize: "30x30"
+                    }
+                },
+                cb
+            );
+        }, "to call the callback without error").then(([pipelineResult]) => {
+            const { outputStream, outputTransformed } = pipelineResult;
+
+            outputStream.resume();
+
+            expect(outputTransformed, "to be true");
+        });
+    });
+
     it("should allow no image options to be supplied", () => {
         const imageFileStream = fs.createReadStream(
             path.join(TEST_DATA_PATH, "tiny.png")
