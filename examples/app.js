@@ -12,11 +12,10 @@ function validateImageOptions(query) {
     const outFormat = purify.visibleAscii(query.format);
     const width = purify.positiveInteger(query.width);
     const height = purify.positiveInteger(query.height);
-    const queryCrop = purify.boolean(query.crop);
-    const gravity = purify.visibleAscii(query.gravity);
+    const crop = purify.visibleAscii(query.crop);
     const rotate = purify.positiveIntegerOrZero(query.rotate);
 
-    if (!(outFormat || (width && height) || queryCrop || gravity || rotate)) {
+    if (!(outFormat || (width && height) || crop || rotate)) {
         return null;
     }
 
@@ -26,17 +25,17 @@ function validateImageOptions(query) {
 
     const imageOptions = {};
     if (outFormat) {
-        imageOptions.setFormat = outFormat;
+        let setFormat = outFormat;
+        if (setFormat === "jpg") {
+            setFormat = "jpeg";
+        }
+        imageOptions.setFormat = setFormat;
     }
     if (width && height) {
-        imageOptions.resize = `${width},${height}`;
+        imageOptions.resize = `${width}x${height}`;
     }
-    if (queryCrop && gravity) {
-        imageOptions.crop = gravity.toLowerCase();
-    }
-    if (query.background && query.embed !== undefined) {
-        imageOptions.background = "#000000";
-        imageOptions.embed = "";
+    if (crop) {
+        imageOptions.crop = crop.toLowerCase();
     }
     if (typeof rotate === "number") {
         imageOptions.rotate = rotate;
