@@ -16,7 +16,7 @@
   "license": "BSD-3-Clause",
   "dependencies": {
     "@alexjeffburke/bufferedstream": "^1.6.1",
-    "exif-parser": "^0.1.12",
+    "exif-reader": "^1.0.3",
     "gifsicle-stream": "^1.0.0",
     "httperrors": "2.0.1",
     "impro": "~0.3.0",
