@@ -104,7 +104,7 @@ describe("createRightImagePipeline", () => {
         );
     });
 
-    it("should error when an operation arugment could not be mapped", () => {
+    it("should error when an imageOptions property is not valid", () => {
         const imageFileStream = fs.createReadStream(
             path.join(TEST_DATA_PATH, "tiny.png")
         );
@@ -127,7 +127,7 @@ describe("createRightImagePipeline", () => {
         );
     });
 
-    it("should error when an operation arugment could not be mapped", () => {
+    it("should error when an operation argument could not be mapped", () => {
         const imageFileStream = fs.createReadStream(
             path.join(TEST_DATA_PATH, "tiny.png")
         );
