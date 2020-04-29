@@ -127,6 +127,28 @@ describe("createRightImagePipeline", () => {
         );
     });
 
+
+    it("should error when passing in a jpg labeled as being a gif", () => {
+        const imageFileStream = fs.createReadStream(
+            path.join(TEST_DATA_PATH, "test.jpg")
+        );
+
+        return expect(
+            function(cb) {
+                createRightImagePipeline(
+                    {
+                        contentType: "image/gif",
+                        inputStream: imageFileStream,
+                        imageOptions: { rotate: 0 }
+                    },
+                    cb
+                );
+            },
+            "to call the callback with error",
+            "foo"
+        );
+    });
+
     it("should error when an operation argument could not be mapped", () => {
         const imageFileStream = fs.createReadStream(
             path.join(TEST_DATA_PATH, "tiny.png")
