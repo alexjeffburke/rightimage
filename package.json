@@ -19,7 +19,7 @@
     "exif-reader": "^1.0.3",
     "gifsicle-stream": "^1.0.0",
     "httperrors": "2.0.1",
-    "impro": "~0.6.1",
+    "impro": "~0.7.0",
     "is-animated": "1.1.1",
     "jpegtran": "^1.0.5",
     "purify": "^3.3.1",
