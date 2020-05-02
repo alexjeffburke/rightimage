@@ -5,7 +5,7 @@
 [![Coverage Status](https://img.shields.io/coveralls/alexjeffburke/rightimage/master.svg)](https://coveralls.io/r/alexjeffburke/rightimage?branch=master)
 
 This module is a small library for streaming dynamic images. Its
-primary trick is to automatically detect and correct oritentation.
+key feature is to automatically detect and correct oritentation.
 
 ## Use
 
@@ -28,7 +28,12 @@ rightImage.createRightImagePipeline(
     },
     inputStream
   },
-  passError(next, pipelineResult => {
+  (err, pipelineResult) => {
+    if (err) {
+      // call error handling code
+      return;
+    }
+
     const { outputContentType, outputStream } = pipelineResult;
 
     const outputFile = fs.writeFileStream("./testdata/output_small.png");
@@ -44,11 +49,11 @@ rightImage.createRightImagePipeline(
 The example above would take the test JPEG file in the project repository
 and convert it to a 100x100 PNG write the output "wrote image/png". Since
 the source JPEG has an orientation, it will be oriented correctly without
-any further options required.
+any additional steps required.
 
 ## Implementation
 
-The primary trick is to read the first 128K bytes of the imahe on-the-fly
+The primary trick is to read the first 128K bytes of the image on-the-fly
 and parse the EXIF data for the image oritentation. We use any present
 orientation data to calculate the correction required and trigger rotation
 via image processing libraries. The image data is never buffered.
@@ -61,7 +66,7 @@ A great deal of emphasis has been placed on error codepath hardening and the
 validation of any operations that will be performed.
 
 Every requested format conversion and transformation operation is checked
-against a set of whitelisted operations and the module will not procedd if
+against a set of whitelisted operations and the module will not proceed if
 these checks fail. _This module will always prefer a safer feature subset._
 
 ## Image processing
