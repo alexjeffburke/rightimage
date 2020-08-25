@@ -150,7 +150,7 @@ describe("createRightImagePipeline", () => {
         );
     });
 
-    it("should allow a resize option to be supplied as a string", () => {
+    it("should allow a resize option to be supplied as a string (x)", () => {
         const imageFileStream = fs.createReadStream(
             path.join(TEST_DATA_PATH, "test.jpg")
         );
@@ -162,6 +162,31 @@ describe("createRightImagePipeline", () => {
                     inputStream: imageFileStream,
                     imageOptions: {
                         resize: "30x30"
+                    }
+                },
+                cb
+            );
+        }, "to call the callback without error").then(([pipelineResult]) => {
+            const { outputStream, outputTransformed } = pipelineResult;
+
+            outputStream.resume();
+
+            expect(outputTransformed, "to be true");
+        });
+    });
+
+    it("should allow a resize option to be supplied as a string (,)", () => {
+        const imageFileStream = fs.createReadStream(
+            path.join(TEST_DATA_PATH, "test.jpg")
+        );
+
+        return expect(function(cb) {
+            createRightImagePipeline(
+                {
+                    contentType: "image/jpeg",
+                    inputStream: imageFileStream,
+                    imageOptions: {
+                        resize: "30,30"
                     }
                 },
                 cb
