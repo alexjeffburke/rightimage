@@ -123,7 +123,7 @@ describe("createRightImagePipeline", () => {
                 );
             },
             "to call the callback with error",
-            "unsupported argument for notanoption"
+            "unsupported operation notanoption=[\"\"]"
         );
     });
 
