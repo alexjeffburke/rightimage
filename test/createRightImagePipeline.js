@@ -94,6 +94,27 @@ describe("createRightImagePipeline", () => {
                     {
                         contentType: "image/png",
                         inputStream: imageFileStream,
+                        imageOptions: { crop: "alternate_reality" }
+                    },
+                    cb
+                );
+            },
+            "to call the callback with error",
+            'unsupported operation crop=["alternate_reality"]'
+        );
+    });
+
+    it("should error on an unknown operation", () => {
+        const imageFileStream = fs.createReadStream(
+            path.join(TEST_DATA_PATH, "tiny.png")
+        );
+
+        return expect(
+            function(cb) {
+                createRightImagePipeline(
+                    {
+                        contentType: "image/png",
+                        inputStream: imageFileStream,
                         imageOptions: { transnothingify: undefined }
                     },
                     cb
@@ -123,7 +144,7 @@ describe("createRightImagePipeline", () => {
                 );
             },
             "to call the callback with error",
-            "unsupported argument for notanoption"
+            'unsupported operation notanoption=[""]'
         );
     });
 
@@ -146,7 +167,30 @@ describe("createRightImagePipeline", () => {
                 );
             },
             "to call the callback with error",
-            "invalid argument for resize 30-30"
+            'invalid argument for operation resize="30-30"'
+        );
+    });
+
+    it("should error when an operation argument fails to be mapped", () => {
+        const imageFileStream = fs.createReadStream(
+            path.join(TEST_DATA_PATH, "tiny.png")
+        );
+
+        return expect(
+            function(cb) {
+                createRightImagePipeline(
+                    {
+                        contentType: "image/jpeg",
+                        inputStream: imageFileStream,
+                        imageOptions: {
+                            resize: "30,A"
+                        }
+                    },
+                    cb
+                );
+            },
+            "to call the callback with error",
+            'invalid argument for operation resize="30,A"'
         );
     });
 
@@ -187,6 +231,31 @@ describe("createRightImagePipeline", () => {
                     inputStream: imageFileStream,
                     imageOptions: {
                         resize: "30,30"
+                    }
+                },
+                cb
+            );
+        }, "to call the callback without error").then(([pipelineResult]) => {
+            const { outputStream, outputTransformed } = pipelineResult;
+
+            outputStream.resume();
+
+            expect(outputTransformed, "to be true");
+        });
+    });
+
+    it("should allow string options without conversions to pass through", () => {
+        const imageFileStream = fs.createReadStream(
+            path.join(TEST_DATA_PATH, "test.jpg")
+        );
+
+        return expect(function(cb) {
+            createRightImagePipeline(
+                {
+                    contentType: "image/jpeg",
+                    inputStream: imageFileStream,
+                    imageOptions: {
+                        crop: "center"
                     }
                 },
                 cb
