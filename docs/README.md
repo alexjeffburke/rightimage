@@ -9,41 +9,68 @@ key feature is to automatically detect and correct oritentation.
 
 ## Use
 
+<!-- evaldown hide:true -->
+
+```js
+require("fs").mkdirSync("./testdata/output", { recursive: true });
+
+
+let cbResolve;
+let cbReject;
+const cbPromise = new Promise((resolve, reject) => {
+  cbResolve = resolve;
+  cbReject = reject;
+});
+
+const callback = (err, result) => err ? cbReject(err) : cbResolve(result);
+```
+
 The library exposes a function that can be passed image processing options
 and will return a stream. We carefully arrange for error propogation and
 teardown of resources to ensure operation in servers is safe.
 
 ```js
 const fs = require("fs");
-const inputStream = fs.createReadStream("./testdata/test.jpg");
 
-const rightimage = require("rightimage");
+const rightImage = require("rightimage");
 
 rightImage.createRightImagePipeline(
   {
     contentType: "image/jpeg",
     imageOptions: {
-      setFormat: 'png',
+      setFormat: "png",
       resize: "100,100"
     },
-    inputStream
+    inputStream: fs.createReadStream("./testdata/test.jpg")
   },
   (err, pipelineResult) => {
     if (err) {
       // call error handling code
-      return;
+      return callback(err);
     }
 
     const { outputContentType, outputStream } = pipelineResult;
 
-    const outputFile = fs.writeFileStream("./testdata/output_small.png");
-    outputFile.on('close', () => {
-      console.log(`wrote ${outputContentType}`);
-    })
+    const outputFile = "./testdata/output/test_small.png";
+    const outputFileStream = fs.createWriteStream(outputFile);
+    outputFileStream.on("close", () => {
+      // call some callback to signify success
+      callback(null, `wrote an ${outputContentType} to path ${outputFile}`);
+    });
 
-    outputStream.pipe(outputFile);
-  });
+    outputStream.pipe(outputFileStream);
+  }
 );
+```
+
+<!-- evaldown hide:true -->
+
+```js
+return cbPromise;
+```
+
+```output
+'wrote an image/png to path ./testdata/output/test_small.png'
 ```
 
 The example above would take the test JPEG file in the project repository
