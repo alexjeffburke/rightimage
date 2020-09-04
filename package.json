@@ -9,6 +9,7 @@
   "scripts": {
     "coverage": "nyc --reporter lcov --reporter text npm test",
     "docs": "evaldown --format markdown ./docs/README.md > README.md",
+    "test-docs": "evaldown --validate --reporter spec ./docs/README.md",
     "lint": "eslint .",
     "test": "mocha",
     "version": "npm run docs && git add README.md"
