@@ -22,11 +22,11 @@
     "exif-reader": "^1.0.3",
     "gifsicle-stream": "^1.0.0",
     "httperrors": "2.0.1",
-    "impro": "~0.7.0",
+    "impro": "~0.8.0",
     "is-animated": "1.1.1",
     "jpegtran": "^1.0.5",
     "purify": "^3.3.1",
-    "sharp": "~0.23.0"
+    "sharp": "~0.26.0"
   },
   "devDependencies": {
     "coveralls": "^3.0.0",
