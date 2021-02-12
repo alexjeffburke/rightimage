@@ -42,7 +42,9 @@ describe("middleware", () => {
         });
     });
 
-    it("should convert the format and pass through an image", () => {
+    it("should convert the format and pass through an image", function() {
+        this.timeout(4000);
+
         return expect("GET /test.jpg?format=png", "to yield response", {
             statusCode: 200,
             headers: {
