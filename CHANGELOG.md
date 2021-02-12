@@ -1,3 +1,10 @@
+### v1.1.0 (2021-02-12)
+
+- [Throw in an empty rc file for prettier.](https://github.com/alexjeffburke/rightimage/commit/572f75b98c13c1f61148293d5a6b2e689fc38329) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [Bump timeout on middleware conversion test for CI.](https://github.com/alexjeffburke/rightimage/commit/559dab22d6b024a43f2f3bfa54399a88c4423ed4) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [Upgrade to sharp 0.27.0.](https://github.com/alexjeffburke/rightimage/commit/f36c929fee387743b66c2a951df0cdb8ec6c59fb) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [Switch to GitHub Actions](https://github.com/alexjeffburke/rightimage/commit/b7d1919e3fb5c8731de9f48e35328533ca2484b3) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+
 ### v1.0.0 (2020-09-04)
 
 - [Add changelog generation to the version hook.](https://github.com/alexjeffburke/rightimage/commit/4f9cb748b52d1b34b23a797792b97a6e08e45de4) ([Alex J Burke](mailto:alex@alexjeffburke.com))
