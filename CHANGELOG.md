@@ -1,3 +1,10 @@
+### v1.2.0 (2021-05-13)
+
+- [Demote example only libraries to dev deps.](https://github.com/alexjeffburke/rightimage/commit/a571f7e4498026956a243b5cb1d1b648c932057c) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [Bump is-animated to 2.0.1 and set caret version.](https://github.com/alexjeffburke/rightimage/commit/a4838bd42f32eb05ed92a8ff7e53b43d4b847ebe) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [Bump jpegtran to 2.0.0 after f2345a5.](https://github.com/alexjeffburke/rightimage/commit/dfd642bd07950e7a97d4e8e340da8ed0427eec08) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [Upgrade to sharp 0.28.0.](https://github.com/alexjeffburke/rightimage/commit/f2345a5546c6164c7acad029d4f464a2289b7f18) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+
 ### v1.1.0 (2021-02-12)
 
 - [Throw in an empty rc file for prettier.](https://github.com/alexjeffburke/rightimage/commit/572f75b98c13c1f61148293d5a6b2e689fc38329) ([Alex J Burke](mailto:alex@alexjeffburke.com))

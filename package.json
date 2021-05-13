@@ -1,6 +1,6 @@
 {
   "name": "rightimage",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Stream images with dynamic re-orientation",
   "main": "lib/index.js",
   "files": [
