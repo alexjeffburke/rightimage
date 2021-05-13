@@ -25,11 +25,11 @@
     "exif-reader": "^1.0.3",
     "gifsicle-stream": "^1.0.0",
     "httperrors": "2.0.1",
-    "impro": "~0.9.0",
+    "impro": "~0.10.0",
     "is-animated": "1.1.1",
     "jpegtran": "^1.0.5",
     "purify": "^3.3.1",
-    "sharp": "~0.27.0"
+    "sharp": "~0.28.0"
   },
   "devDependencies": {
     "eslint": "^6.6.0",
