@@ -31,6 +31,27 @@ function createPromiseFromStream(stream) {
     });
 }
 
+function createRightimageCallbackWithChecker({ streamError }) {
+    let cb;
+    const checker = new Promise((resolve, reject) => {
+        cb = (err, { outputStream }) => {
+            try {
+                expect(err, "to be null");
+            } catch (e) {
+                reject(e);
+            }
+            expect(
+                createPromiseFromStream(outputStream),
+                "to be rejected with",
+                streamError
+            )
+                .then(resolve)
+                .catch(reject);
+        };
+    });
+    return [cb, checker];
+}
+
 describe("createRightImagePipeline", () => {
     it("should throw on a non-image content type", () => {
         return expect(
@@ -192,6 +213,52 @@ describe("createRightImagePipeline", () => {
             "to call the callback with error",
             'invalid argument for operation resize="30,A"'
         );
+    });
+
+    it("should emit an error if input is larger than maxInputPixels", () => {
+        const imageFileStream = fs.createReadStream(
+            path.join(TEST_DATA_PATH, "test.jpg")
+        );
+        const [cb, checker] = createRightimageCallbackWithChecker({
+            streamError: "Input image exceeds pixel limit"
+        });
+
+        createRightImagePipeline(
+            {
+                contentType: "image/jpeg",
+                inputStream: imageFileStream,
+                imageOptions: {
+                    maxInputPixels: 1000
+                }
+            },
+            cb
+        );
+
+        return checker;
+    });
+
+    it("should emit an error if ouptut image is larger than maxOutputPixels", () => {
+        const imageFileStream = fs.createReadStream(
+            path.join(TEST_DATA_PATH, "test.jpg")
+        );
+        const [cb, checker] = createRightimageCallbackWithChecker({
+            streamError:
+                "resize: Target dimensions of 100x100 exceed maxOutputPixels (999)"
+        });
+
+        createRightImagePipeline(
+            {
+                contentType: "image/jpeg",
+                inputStream: imageFileStream,
+                imageOptions: {
+                    maxOutputPixels: 999,
+                    resize: "100,100"
+                }
+            },
+            cb
+        );
+
+        return checker;
     });
 
     it("should allow a resize option to be supplied as a string (x)", () => {
