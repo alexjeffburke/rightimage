@@ -1,5 +1,5 @@
 name: tests
-'on':
+"on":
   push:
   pull_request:
 
@@ -31,18 +31,18 @@ jobs:
     strategy:
       matrix:
         targets:
-          - name: 'Lint'
-            target: 'lint'
-          - name: 'Coverage'
-            target: 'coverage'
-          - name: 'Documentation'
-            target: 'test-docs'
+          - name: "Lint"
+            target: "lint"
+          - name: "Coverage"
+            target: "coverage"
+          - name: "Documentation"
+            target: "test-docs"
     steps:
       - uses: actions/checkout@v2
       - name: Setup node
         uses: actions/setup-node@v1
         with:
-          node-version: '10'
+          node-version: "10"
       - name: Install dependencies
         run: sudo apt-get install -y graphicsmagick libjpeg-turbo-progs
       - run: npm install
