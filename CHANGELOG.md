@@ -1,3 +1,10 @@
+### v1.3.0 (2022-03-08)
+
+- [Bump copyright date.](https://github.com/alexjeffburke/rightimage/commit/158feffbbc04efbc0084f15b76fba8478a8877cc) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [Use consistent quoting in CI config.](https://github.com/alexjeffburke/rightimage/commit/f6c037f0aef514be1752c9992b4c0b3cb6bd6f74) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [Test on node 16 in CI.](https://github.com/alexjeffburke/rightimage/commit/c3a2bf3699ae1cfaa4c041dd12396ae0619fb426) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [Implement maxInputPixels and maxOutputPixels.](https://github.com/alexjeffburke/rightimage/commit/c0fd53858fe8635aa4f43346903faeffd91ac799) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+
 ### v1.2.0 (2021-05-13)
 
 - [Demote example only libraries to dev deps.](https://github.com/alexjeffburke/rightimage/commit/a571f7e4498026956a243b5cb1d1b648c932057c) ([Alex J Burke](mailto:alex@alexjeffburke.com))
