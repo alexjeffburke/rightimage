@@ -24,10 +24,10 @@
     "@alexjeffburke/bufferedstream": "^1.6.1",
     "exif-reader": "^1.0.3",
     "gifsicle-stream": "^1.0.0",
-    "impro": "~0.10.0",
+    "impro": "~0.13.0",
     "is-animated": "^2.0.1",
     "jpegtran": "^2.0.0",
-    "sharp": "~0.28.0"
+    "sharp": "~0.30.0"
   },
   "devDependencies": {
     "eslint": "^6.6.0",
