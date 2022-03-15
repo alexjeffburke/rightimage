@@ -1,3 +1,8 @@
+### v2.0.0 (2022-03-15)
+
+- [Upgrade to sharp 0.30.0.](https://github.com/alexjeffburke/rightimage/commit/ad41d4c0bc2d29b2378a38cd6cf8ceda1cb8371b) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [Raise the minimum node version to 12.](https://github.com/alexjeffburke/rightimage/commit/0283705f518ab8f4b2399208439fcaafc98d920f) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+
 ### v1.3.0 (2022-03-08)
 
 - [Bump copyright date.](https://github.com/alexjeffburke/rightimage/commit/158feffbbc04efbc0084f15b76fba8478a8877cc) ([Alex J Burke](mailto:alex@alexjeffburke.com))
