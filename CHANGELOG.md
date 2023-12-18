@@ -1,3 +1,9 @@
+### v3.0.0 (2023-12-18)
+
+- [Update impro to version 0.14.0.](https://github.com/alexjeffburke/rightimage/commit/70772501497d29128545fccad7ac10c3f13b400c) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [Raise the minimum node version to 16.](https://github.com/alexjeffburke/rightimage/commit/b5894685bcca7daeaa88560811c092bb9163feb6) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [Use a supported Ubuntu version on CI thus restoring it to working.](https://github.com/alexjeffburke/rightimage/commit/e39ddf7173f2af519b898bda1e3fc3cdc99d1736) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+
 ### v2.0.0 (2022-03-15)
 
 - [Upgrade to sharp 0.30.0.](https://github.com/alexjeffburke/rightimage/commit/ad41d4c0bc2d29b2378a38cd6cf8ceda1cb8371b) ([Alex J Burke](mailto:alex@alexjeffburke.com))
